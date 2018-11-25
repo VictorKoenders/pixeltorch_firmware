@@ -1,0 +1,131 @@
+PinState size: 1
+Appending 00000001 00000010 00000011 00000100 
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Doing nothing
+Doing nothing
+Setting low
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Doing nothing
+Doing nothing
+Setting low
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Doing nothing
+Doing nothing
+Setting low
+Initial: Setting high
+Doing nothing
+Doing nothing
+Setting low
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Doing nothing
+Doing nothing
+Setting low
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+Initial: Setting high
+Setting low
+Doing nothing
+Doing nothing
+No bit available

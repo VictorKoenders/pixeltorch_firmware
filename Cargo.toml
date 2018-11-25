@@ -1,0 +1,17 @@
+[package]
+authors = ["Victor Koenders <victor.koenders@gmail.com>"]
+edition = "2018"
+name = "bitlight_firmware"
+version = "0.1.0"
+
+[dependencies]
+cortex-m = "0.5.8"
+cortex-m-rt = "0.6.5"
+enc28j60 = "0.2.0"
+panic-semihosting = "0.5.1"
+stm32f103xx = "0.10.0"
+
+[dependencies.stm32f103xx-hal]
+features = ["rt"]
+git = "https://github.com/japaric/stm32f103xx-hal"
+rev = "45ff8686f16ed0d9d97adfbafb73c21e9e9ee7e8"
