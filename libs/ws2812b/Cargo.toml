@@ -1,0 +1,8 @@
+[package]
+name = "ws2812b"
+version = "0.1.0"
+authors = ["Victor Koenders <victor.koenders@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+embedded-hal = "0.2.2"

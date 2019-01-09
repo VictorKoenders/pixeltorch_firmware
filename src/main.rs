@@ -1,64 +1,68 @@
-#![feature(test)]
-#![feature(untagged_unions)]
 #![no_std]
 #![no_main]
 
-extern crate cortex_m;
-extern crate enc28j60;
+// We have to make sure panic_semihosting is included, because this automagically registers a panic handler
 extern crate panic_semihosting;
-extern crate stm32f103xx_hal;
-#[macro_use]
-extern crate stm32f103xx;
-#[cfg(test)]
-extern crate test;
-
-use crate::buffer::BufferImpl;
-use stm32f103xx_hal::afio::AfioExt;
-use stm32f103xx_hal::flash::FlashExt;
-use stm32f103xx_hal::gpio::GpioExt;
-use stm32f103xx_hal::prelude::_stm32f103xx_hal_rcc_RccExt;
-
-mod buffer;
-mod interrupt;
-mod network;
 
 use cortex_m_rt::entry;
+use stm32f103xx_hal::gpio::gpioa::PA2;
+use stm32f103xx_hal::gpio::Output;
+use stm32f103xx_hal::gpio::PushPull;
+use stm32f103xx_hal::prelude::*;
+use stm32f103xx_hal::stm32f103xx;
+use ws2812b::LedController;
 
-const COLOR_GREEN: [u8; 3] = [0, 255, 0];
-
+fn make_go_faster(rcc: &stm32f103xx::RCC, flash: &stm32f103xx::FLASH) {
+    rcc.cr.modify(|_, w| w.hseon().enabled());
+    while !rcc.cr.read().hserdy().is_ready() {}
+    flash.acr.modify(|_, w| w.prftbe().enabled());
+    flash.acr.modify(|_, w| w.latency().two());
+    rcc.cfgr.modify(|_, w| {
+        w.hpre()
+            .no_div()
+            .ppre2()
+            .no_div()
+            .ppre1()
+            .div2()
+            .adcpre()
+            .div8()
+            .pllsrc()
+            .external()
+            .pllxtpre()
+            .no_div()
+            .pllmul()
+            .mul9()
+    });
+    rcc.cr.modify(|_, w| w.pllon().enabled());
+    while rcc.cr.read().pllrdy().is_unlocked() {}
+    rcc.cfgr.modify(|_, w| w.sw().pll());
+    while !rcc.cfgr.read().sws().is_pll() {}
+}
 #[entry]
 fn main() -> ! {
-    let cp = cortex_m::Peripherals::take().unwrap();
     let dp = stm32f103xx::Peripherals::take().unwrap();
 
-    let mut flash = dp.FLASH.constrain();
+    make_go_faster(&dp.RCC, &dp.FLASH);
+
     let mut rcc = dp.RCC.constrain();
-    let mut afio = dp.AFIO.constrain(&mut rcc.apb2);
     let mut gpioa = dp.GPIOA.split(&mut rcc.apb2);
 
-    {
-        let buffer = buffer::get_mut();
-        buffer.set_pin(gpioa.pa2.into_push_pull_output(&mut gpioa.crl));
-        buffer.append(core::iter::repeat(&COLOR_GREEN).take(300).flatten());
+    let pin = gpioa.pa2.into_push_pull_output(&mut gpioa.crl);
+    let mut controller = LedController::new(pin);
+
+    let mut colors = [[0, 100, 0]; 300];
+
+    loop {
+        show_colors(&mut controller, &colors);
+    }
+}
+
+fn show_colors(controller: &mut LedController<PA2<Output<PushPull>>>, colors: &[[u8; 3]; 300]) {
+    for color in colors.iter() {
+        controller.write(color.iter().cloned());
     }
 
-    let clocks = rcc.cfgr.freeze(&mut flash.acr);
-
-    interrupt::configure(dp.TIM2, clocks, &mut rcc.apb1);
-
-    let _network = network::Network::new(
-        gpioa.pa3,
-        gpioa.pa4,
-        gpioa.pa5,
-        gpioa.pa6,
-        gpioa.pa7,
-        dp.SPI1,
-        cp.SYST,
-        clocks,
-        &mut gpioa.crl,
-        &mut afio.mapr,
-        &mut rcc.apb2,
-    );
-
-    loop {}
+    for _ in 0..400 {
+        cortex_m::asm::nop();
+    }
 }
